@@ -3,11 +3,6 @@ const _clrs = [
 	[247, 247, 247]
 ]
 
-// Daniel Shiffman
-// http://codingtra.in
-// http://patreon.com/codingtrain
-// Code for: https://youtu.be/BjoM9oKOAKY
-
 let inc = 0.1;
 let scl = 40;
 let cols, rows;
