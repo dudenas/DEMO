@@ -1,16 +1,20 @@
-function Particle(idx) {
-    this.pos = firstPlace()
-    this.vel = createVector(0, 0);
-    this.acc = p5.Vector.random2D();
-    this.maxspeed = 4;
-    this.maxforce = random(.5, 1);
-    this.idx = idx;
-    this.h = 1
-    this.maxh = Math.floor(random(25, 50))
+class Particle {
+    constructor(idx) {
+        this.pos = firstPlace()
+        this.vel = createVector(0, 0);
+        this.acc = p5.Vector.random2D();
+        this.maxspeed = 4;
+        // this.maxforce = random(.5, 1);
+        // this.maxforce = random(.5);
+        this.maxforce = 1;
+        this.idx = idx;
+        this.h = 1
+        this.maxh = Math.floor(random(25, 50))
 
-    this.prevPos = this.pos.copy();
+        this.prevPos = this.pos.copy();
+    }
 
-    this.update = function () {
+    update() {
         this.vel.add(this.acc);
         this.vel.limit(this.maxspeed);
         this.pos.add(this.vel);
@@ -18,7 +22,7 @@ function Particle(idx) {
 
     };
 
-    this.show = function () {
+    show() {
         if (this.h < this.maxh) {
             // this.prevPos.setMag(1 / this.h)
             this.prevPos = p5.Vector.lerp(this.prevPos, this.pos, this.h / this.maxh)
@@ -30,7 +34,7 @@ function Particle(idx) {
         this.updatePrev();
     };
 
-    this.separation = function (boids) {
+    separation(boids) {
         let perceptionRadius = 50;
         let steering = createVector();
         let total = 0;
@@ -59,11 +63,11 @@ function Particle(idx) {
         this.applyForce(steering);
     }
 
-    this.follow = function (vectors) {
+    follow(vectors) {
         var x = floor(this.pos.x / (scl));
         var y = floor(this.pos.y / (scl));
         var index = x + y * cols;
-        var force = vectors[index];
+        var force = vectors[index].copy();
         if (force != undefined) {
             // console.log(x, cols, y, rows)
             force.limit(this.maxforce)
@@ -74,17 +78,17 @@ function Particle(idx) {
         this.applyForce(force);
     };
 
-    this.applyForce = function (force) {
+    applyForce(force) {
         this.acc.add(force);
     };
 
 
-    this.updatePrev = function () {
+    updatePrev() {
         this.prevPos.x = this.pos.x;
         this.prevPos.y = this.pos.y;
     };
 
-    this.edges = function () {
+    edges() {
         if (this.pos.x > width) {
             // this.pos.x = 0;
             // this.updatePrev();
@@ -106,6 +110,11 @@ function Particle(idx) {
             this.h = this.maxh
         }
     };
+
+    closeToMagnet(m) {
+        const d = distsq(this.pos.x, this.pos.y, m.pos.x, m.pos.y)
+        if (d < pow(poleSize * 2, 2)) this.h++
+    }
 }
 
 function distsq(x1, y1, x2, y2) {
