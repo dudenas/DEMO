@@ -23,7 +23,6 @@ function setup() {
 	createCanvas(1080, 1080);
 	cols = floor(width / scl);
 	rows = floor(height / scl);
-	fr = createP('');
 
 	// flowfield = new Array(cols * rows);
 	_flowField = new VectorField()
@@ -38,6 +37,9 @@ function setup() {
 }
 
 function draw() {
+	params.magnetLen = currMagnet
+	params.fps = floor(frameRate())
+
 	// update particles size
 	if (_particles.length != params.totalParticles) {
 		if (_particles.length < params.totalParticles) {
@@ -90,7 +92,7 @@ function draw() {
 	}
 
 	if (params.mode == 2) {
-		stroke(..._clrs[1], 25);
+		stroke(..._clrs[1], 15);
 	} else {
 		stroke(..._clrs[1], 255);
 	}
@@ -110,6 +112,4 @@ function draw() {
 			p.closeToMagnet(m)
 		}
 	}
-
-	fr.html(floor(frameRate()));
 }

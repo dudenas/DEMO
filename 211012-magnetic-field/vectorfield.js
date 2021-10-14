@@ -6,12 +6,37 @@ class VectorField {
         for (let i = 0; i < cols * rows; i++) {
             this.v[i] = createVector(0, 0);
         }
+
+        for (let y = 0; y < _offset; y++) {
+            for (let x = 0; x < cols; x++) {
+                const idx = x + y * cols
+                this.v[idx] = undefined
+            }
+        }
+        for (let y = rows - _offset; y < rows; y++) {
+            for (let x = 0; x < cols; x++) {
+                const idx = x + y * cols
+                this.v[idx] = undefined
+            }
+        }
+        for (let y = 0; y < rows; y++) {
+            for (let x = 0; x < _offset; x++) {
+                const idx = x + y * cols
+                this.v[idx] = undefined
+            }
+        }
+        for (let y = 0; y < rows; y++) {
+            for (let x = cols - _offset; x < cols; x++) {
+                const idx = x + y * cols
+                this.v[idx] = undefined
+            }
+        }
     }
 
     show() {
         // draw each arrow from center of each field "unit"
-        for (let y = 0; y < cols; y++) {
-            for (let x = 0; x < rows; x++) {
+        for (let y = _offset; y < cols - _offset; y++) {
+            for (let x = _offset; x < rows - _offset; x++) {
                 push();
                 translate(x * scl + scl / 2, y * scl + scl / 2);
                 const idx = x + y * cols
@@ -49,15 +74,17 @@ class VectorField {
     add(f) {
         // add another vector field to this one
         for (let i = 0; i < cols * rows; i++) {
-            this.v[i].add(f.v[i]);
+            if (this.v[i] != undefined) this.v[i].add(f.v[i]);
         }
     }
 
     degauss() {
         // sets all vectors to zero
         for (let i = 0; i < cols * rows; i++) {
-            this.v[i].x = 0;
-            this.v[i].y = 0;
+            if (this.v[i] != undefined) {
+                this.v[i].x = 0;
+                this.v[i].y = 0;
+            }
         }
     }
 

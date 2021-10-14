@@ -5,7 +5,9 @@ let params = {
     debug: true,
     mode: 1,
     magnetLen: 0,
-    totalParticles: 5000
+    totalParticles: 5000,
+    fps: 0,
+    maxspeed: 4,
 }
 
 let _dataMagnets
@@ -23,6 +25,7 @@ function createGUI() {
 
     // debug
     gui.add(params, 'debug').name('debug')
+    gui.add(params, "fps").listen()
     // mode
     const mode = gui.add(params, 'mode', {
         "motion mode": 1,
@@ -34,6 +37,7 @@ function createGUI() {
     })
     // total particles
     gui.add(params, 'totalParticles', 100, 10000, 100).name('total particles')
+    gui.add(params, 'maxspeed', 1, 5, 0.1).name('particle speed')
 
     // noise gui
     const folderNoise = gui.addFolder('Noise Field')
@@ -55,15 +59,25 @@ function createGUI() {
         .name('Reset Magnets');
 
 
-
+    // magnetModes
+    const folderMagnetSetUp = gui.addFolder('Magnet set-ups')
+    folderMagnetSetUp.open()
     for (let i = 0; i < Object.keys(_dataMagnets).length; i++) {
-        var btn = document.createElement("BUTTON");
-        btn.innerHTML = `magnets variation ${i}`
-        btn.onclick = () => {
-            initMagnets(i)
-        }
-        document.body.append(btn)
+        var obj = {
+            fnct: function () {
+                initMagnets(i)
+            },
+        };
+        folderMagnetSetUp.add(obj, "fnct").name(`variation-${i}`);
+        // var btn = document.createElement("BUTTON");
+        // btn.innerHTML = `magnets variation ${i}`
+        // btn.onclick = () => {
+        //     initMagnets(i)
+        // }
+        // document.body.append(btn)
     }
+
+
 }
 
 function initMagnets(idx) {

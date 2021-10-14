@@ -3,20 +3,19 @@ class Particle {
         this.pos = firstPlace()
         this.vel = createVector(0, 0);
         this.acc = p5.Vector.random2D();
-        this.maxspeed = 4;
         // this.maxforce = random(.5, 1);
         // this.maxforce = random(.5);
         // this.maxforce = 1;
         this.idx = idx;
         this.h = 1
-        this.maxh = Math.floor(random(25, 50))
+        this.maxh = Math.floor(random(25, 75))
 
         this.prevPos = this.pos.copy();
     }
 
     update() {
         this.vel.add(this.acc);
-        this.vel.limit(this.maxspeed);
+        this.vel.limit(params.maxspeed);
         this.pos.add(this.vel);
         this.acc.mult(0);
 
@@ -28,6 +27,7 @@ class Particle {
             this.prevPos = p5.Vector.lerp(this.prevPos, this.pos, this.h / this.maxh)
             line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
         } else {
+            // console.log(this.idx)
             this.pos = firstPlace()
             this.h = 1
         }
@@ -64,14 +64,18 @@ class Particle {
     // }
 
     follow(vectors) {
+        // TODO: change vector fields
         var x = floor(this.pos.x / (scl));
         var y = floor(this.pos.y / (scl));
         var index = x + y * cols;
-        var force = vectors[index].copy();
-        if (force != undefined) {
+        var force
+        if (vectors[index] != undefined) {
+            force = vectors[index].copy();
+            // if (force != undefined) {
             // console.log(x, cols, y, rows)
             force.limit(this.maxforce)
         } else {
+            // console.log(this.h)
             this.h++
         }
         // force.mult(random(1, 1))
