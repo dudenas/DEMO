@@ -1,0 +1,48 @@
+{
+    "preset": "Default",
+    "closed": false,
+    "remembered": {
+        "Default": {
+            "0": {
+                "debug": true,
+                "mode": 1,
+                "noiseField": false,
+                "noiseStr": 0.5,
+                "magnetLen": 0,
+                "magnetStr": 0.5
+            }
+        },
+        "Preset1": {
+            "0": {
+                "debug": true,
+                "mode": 1,
+                "noiseField": false,
+                "noiseStr": 0.2,
+                "magnetLen": 0,
+                "magnetStr": 0.5
+            }
+        },
+        "test": {
+            "0": {
+                "debug": true,
+                "mode": 1,
+                "noiseField": false,
+                "noiseStr": 0.58,
+                "magnetLen": 3,
+                "magnetStr": 0.13
+            }
+        }
+    },
+    "folders": {
+        "Noise Field": {
+            "preset": "Default",
+            "closed": false,
+            "folders": {}
+        },
+        "Magnet Field": {
+            "preset": "Default",
+            "closed": false,
+            "folders": {}
+        }
+    }
+}

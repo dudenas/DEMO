@@ -6,7 +6,7 @@ class Particle {
         this.maxspeed = 4;
         // this.maxforce = random(.5, 1);
         // this.maxforce = random(.5);
-        this.maxforce = 1;
+        // this.maxforce = 1;
         this.idx = idx;
         this.h = 1
         this.maxh = Math.floor(random(25, 50))
@@ -34,34 +34,34 @@ class Particle {
         this.updatePrev();
     };
 
-    separation(boids) {
-        let perceptionRadius = 50;
-        let steering = createVector();
-        let total = 0;
-        for (let other of boids) {
-            let d = distsq(
-                this.pos.x,
-                this.pos.y,
-                other.pos.x,
-                other.pos.y
-            );
-            if (other != this && d < perceptionRadius) {
-                let diff = p5.Vector.sub(this.pos, other.pos);
+    // separation(boids) {
+    //     let perceptionRadius = 50;
+    //     let steering = createVector();
+    //     let total = 0;
+    //     for (let other of boids) {
+    //         let d = distsq(
+    //             this.pos.x,
+    //             this.pos.y,
+    //             other.pos.x,
+    //             other.pos.y
+    //         );
+    //         if (other != this && d < perceptionRadius) {
+    //             let diff = p5.Vector.sub(this.pos, other.pos);
 
-                diff.div(d * d);
-                steering.add(diff);
-                total++;
-            }
-        }
-        // if (this.idx == 1) console.log(total)
-        if (total > 0) {
-            steering.div(total);
-            steering.setMag(this.maxspeed);
-            steering.sub(this.vel);
-            steering.limit(this.maxforce);
-        }
-        this.applyForce(steering);
-    }
+    //             diff.div(d * d);
+    //             steering.add(diff);
+    //             total++;
+    //         }
+    //     }
+    //     // if (this.idx == 1) console.log(total)
+    //     if (total > 0) {
+    //         steering.div(total);
+    //         steering.setMag(this.maxspeed);
+    //         steering.sub(this.vel);
+    //         steering.limit(this.maxforce);
+    //     }
+    //     this.applyForce(steering);
+    // }
 
     follow(vectors) {
         var x = floor(this.pos.x / (scl));

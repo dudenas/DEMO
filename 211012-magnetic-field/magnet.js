@@ -4,14 +4,13 @@ let currMagnet = 0
 
 ////////////////////////
 class Magnet {
-
-    constructor() {
-        this.pos = createVector(0, 0); // position of magnet
+    constructor(pos, dir, moveMode) {
+        this.pos = pos ? pos : createVector(0, 0); // position of magnet
         this.posNeg = createVector(0, 0); // position of negative pole
         this.posPos = createVector(0, 0); // potition of positive pole
-        this.dir = createVector(200, 0); // direction facing
+        this.dir = dir ? dir : createVector(1, 0); // direction facing
         this.vf = new VectorField();
-        this.moveMode = 0
+        this.moveMode = moveMode ? moveMode : 0
     }
 
     update() {
@@ -40,6 +39,17 @@ class Magnet {
         }
     }
 
+    initOldMagnet() {
+        this.dir.normalize();
+        this.posNeg.x = this.posPos.x = this.dir.x;
+        this.posNeg.y = this.posPos.y = this.dir.y;
+        this.posNeg.mult(-poleSize * 2);
+        this.posPos.mult(poleSize * 2);
+        this.posNeg.add(this.pos);
+        this.posPos.add(this.pos);
+        this.vf.polarize(this.posPos, this.posNeg);
+    }
+
     show() {
         // draw magnet
         stroke(_clrs[1]);
@@ -63,34 +73,20 @@ class Magnet {
     }
 }
 
-// function polarize(posPos, posNeg) {
-//     // update all vectors based on proximity to poles
-//     for (int y = 0; y < uHeight; y++)
-//         for (int x = 0; x < uWidth; x++) {
-//             const fPos = new PVector(x * unitSize + halfU, y * unitSize + halfU);
-//             const dist1 = PVector.sub(fPos, posPos);
-//             const dist2 = PVector.sub(posNeg, fPos);
-//             const div1 = dist1.mag() / 10;
-//             const div2 = dist2.mag() / 10;
-//             dist1.normalize();
-//             dist2.normalize();
-//             dist1.div(div1);
-//             dist2.div(div2);
-//             v[y * uWidth + x] = PVector.add(dist1, dist2);
-//             v[y * uWidth + x].mult(100);
-//         }
-// }
-
 function mousePressed() {
     // update the current magnet (or get a new one)
-    if (magnets.length > 0) {
+    if (magnets.length > 0 && withinCanvas()) {
         const m = magnets[currMagnet];
         m.moveMode++;
         if (m.moveMode > 1) {
             magnets.push(new Magnet());
             currMagnet++;
         }
-    } else {
+    } else if (withinCanvas()) {
         magnets.push(new Magnet());
     }
+}
+
+function withinCanvas() {
+    return mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height
 }
