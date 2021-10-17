@@ -24,8 +24,9 @@ class Particle {
     show() {
         if (this.h < this.maxh) {
             // this.prevPos.setMag(1 / this.h)
-            this.prevPos = p5.Vector.lerp(this.prevPos, this.pos, this.h / this.maxh)
+            // this.prevPos = p5.Vector.lerp(this.prevPos, this.pos, this.h / this.maxh)
             line(this.pos.x, this.pos.y, this.prevPos.x, this.prevPos.y);
+
         } else {
             // console.log(this.idx)
             this.pos = firstPlace()

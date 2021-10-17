@@ -53,7 +53,7 @@ class Magnet {
     show() {
         // draw magnet
         stroke(_clrs[1]);
-        strokeWeight(1);
+        // strokeWeight(1);
         noFill()
         push();
         translate(this.pos.x, this.pos.y);

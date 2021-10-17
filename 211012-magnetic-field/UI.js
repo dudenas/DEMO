@@ -5,7 +5,7 @@ let params = {
     debug: true,
     mode: 1,
     magnetLen: 0,
-    totalParticles: 5000,
+    totalParticles: 15000,
     fps: 0,
     maxspeed: 4,
 }

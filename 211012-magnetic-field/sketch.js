@@ -20,7 +20,7 @@ let _flowField
 
 //————————————————————————————————————————————— draw
 function setup() {
-	createCanvas(1080, 1080);
+	createCanvas(1080, 1080, P2D);
 	cols = floor(width / scl);
 	rows = floor(height / scl);
 
@@ -34,11 +34,12 @@ function setup() {
 	background(_clrs[0])
 
 	createGUI()
+	strokeWeight(1)
 }
 
 function draw() {
 	params.magnetLen = currMagnet
-	params.fps = floor(frameRate())
+	params.fps = frameRate().toFixed(0)
 
 	// update particles size
 	if (_particles.length != params.totalParticles) {
@@ -55,8 +56,6 @@ function draw() {
 
 	if (params.mode != 2) background(_clrs[0])
 
-	stroke(..._clrs[1], 255);
-	strokeWeight(1)
 	if (params.debug && params.mode != 2) _flowField.show()
 
 	// show magnets
@@ -96,7 +95,6 @@ function draw() {
 	} else {
 		stroke(..._clrs[1], 255);
 	}
-	strokeWeight(1);
 
 	// const fl = _flowField.v.slice(0)
 	// console.log(_flowField.v[rows / 2 + cols / 2 * cols])
