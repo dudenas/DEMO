@@ -76,8 +76,6 @@ function createGUI() {
         // }
         // document.body.append(btn)
     }
-
-
 }
 
 function initMagnets(idx) {

@@ -56,7 +56,7 @@ function Branch(parent, pos) {
       push()
       translate(lerpPos.x, lerpPos.y)
       rotate(angle + PI / 2)
-      line(-_scl / 8, 0, _scl / 8, 0);
+      line(-params.scl / 8, 0, params.scl / 8, 0);
       pop()
     }
   }
