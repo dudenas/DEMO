@@ -11,23 +11,21 @@ let params = {
 }
 
 let gui
+let _data
+let _lastPreset
+
+function preload() {
+    _data = loadJSON('JSON/settings.json')
+}
 
 function createGUI() {
     // gui = new dat.GUI()
     gui = new dat.GUI({
-        load: {
-            "preset": "Default",
-            "closed": false,
-            "remembered": {
-                "Default": {
-                    "0": {
-                        "x": 8
-                    }
-                }
-            },
-            "folders": {}
-        }
+        load: _data,
+        preset: "Default"
     });
+
+    _lastPreset = gui.preset
 
     gui.remember(params)
 
@@ -53,7 +51,7 @@ function createGUI() {
     const folderNoise = gui.addFolder('Noise values')
     folderNoise.open()
     folderNoise.add(params, 'noiseThreshold', 0.3, .7, 0.01).name('noise threshold')
-    folderNoise.add(params, 'noiseVariation', 0, .1, 0.01).name('noise variation')
+    folderNoise.add(params, 'noiseVariation', 0.005, .1, 0.001).name('noise variation')
 
     // redraw
     params.redraw =
@@ -78,3 +76,20 @@ var resetSliders = function (name) {
         }
     }
 };
+
+function keyPressed() {
+    if (key == 's') {
+        const jsonData = gui.getSaveObject()
+        download(JSON.stringify(jsonData), 'settings.json', 'JSON');
+    }
+}
+
+function download(content, fileName, contentType) {
+    var a = document.createElement("a");
+    var file = new Blob([content], {
+        type: contentType
+    });
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    a.click();
+}

@@ -30,6 +30,12 @@ function draw() {
   // update gui
   updateGUI()
 
+  // redraw graphics if preset is changed
+  if (_lastPreset != gui.preset) {
+    setupGraphics()
+  }
+  _lastPreset = gui.preset
+
   background(..._clrs[0]);
   // show leaves
   noStroke();
@@ -65,6 +71,8 @@ function draw() {
 
 //————————————————————————————————————————————— setupgraphics
 function setupGraphics() {
+  noiseSeed(random(1000))
+
   // recalculate values
   max_dist = Math.sqrt(Math.pow(params.scl, 2) * 2) * params.maxDistVal
 
