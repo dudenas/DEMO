@@ -9,6 +9,8 @@ const max_dist = Math.sqrt(Math.pow(_scl, 2) * 2) * 1.5
 const min_dist = 10;
 const rand_dist = 0
 const _leaves = [];
+const _noiseVariation = 0.01
+const _noiseThreshold = 0.5
 
 const _clrs = [
   [8, 8, 8],
@@ -42,8 +44,8 @@ function setup() {
 
       const nx = x + xoff
       const ny = y + yoff
-      const noiseVal = noise(nx * 0.05, ny * 0.05)
-      if (noiseVal > 0.6) {
+      const noiseVal = noise(nx * _noiseVariation, ny * _noiseVariation)
+      if (noiseVal > _noiseThreshold) {
         const pos = createVector(nx, ny)
         _leaves.push(new Leaf(pos));
       }
