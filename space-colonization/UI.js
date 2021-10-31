@@ -64,7 +64,6 @@ function createGUI() {
 
 function updateGUI() {
     params.fps = frameRate().toFixed(0)
-    // console.log(frameRate())
 }
 
 /* Here is the update */

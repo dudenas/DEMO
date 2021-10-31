@@ -9,6 +9,8 @@ let max_dist
 let _finnished
 let _leafCount
 
+let _quadtree
+
 const _clrs = [
   [8, 8, 8],
   [247, 247, 247]
@@ -17,12 +19,15 @@ const _clrs = [
 //————————————————————————————————————————————— setup
 function setup() {
   createCanvas(1080, 1080);
+  // init quadtree
+  _quadtree = new QuadTree(Infinity, 30, new Rect(0, 0, width, height));
 
   createGUI()
 
   setupGraphics()
 
   rectMode(CENTER)
+
 }
 
 //————————————————————————————————————————————— draw
@@ -58,7 +63,7 @@ function draw() {
     _finnished = true
     console.log('calculations is finnished')
   }
-  _leafCount = _leaves.length
+  // _leafCount = _leaves.length
 }
 
 //————————————————————————————————————————————— ENDDRAW
@@ -93,6 +98,7 @@ function setupGraphics() {
 
   // create leaves
   const step = params.scl
+  let idx = 0
   for (let x = 0; x < width; x += step) {
     for (let y = 0; y < width; y += step) {
       const xoff = random(1) > 0.5 ? random(-params.randOffsetX, params.randOffsetX) : 0
@@ -105,8 +111,15 @@ function setupGraphics() {
       const noiseVal = noise(nx * params.noiseVariation, ny * params.noiseVariation)
       if (noiseVal > params.noiseThreshold) {
         const pos = createVector(nx, ny)
-        _leaves.push(new Leaf(pos));
+        _leaves.push(new Leaf(pos, idx));
+        idx++
       }
     }
+  }
+
+  // quadtree clear
+  _quadtree.clear();
+  for (const leaf of _leaves) {
+    _quadtree.addItem(leaf.pos.x, leaf.pos.y, leaf);
   }
 }

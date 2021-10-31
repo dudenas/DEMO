@@ -16,19 +16,34 @@ function Tree(pos) {
       let closestBranch = null;
       let chosenLeaf = null
       var record = max_dist;
-      for (var i = 0; i < _leaves.length; i++) {
-        var leaf = _leaves[i];
+      let idx = -1
+
+      let total = 0;
+      for (const other of _quadtree.getItemsInRadius(branch.pos.x, branch.pos.y, max_dist, 10)) {
+        var leaf = other;
+        idx = leaf.idx
         var d = p5.Vector.dist(leaf.pos, branch.pos);
-        if (d < record) {
-          closestBranch = branch;
-          chosenLeaf = i
+        if (d < record && !leaf.reached) {
+          closestBranch = branch
+          chosenLeaf = idx
           record = d;
         }
       }
+      // for (var i = 0; i < _leaves.length; i++) {
+      //   var leaf = _leaves[i];
+      //   var d = p5.Vector.dist(leaf.pos, branch.pos);
+      //   if (d < record) {
+      //     closestBranch = branch;
+      //     chosenLeaf = i
+      //     record = d;
+      //   }
+      // }
 
       if (closestBranch != null) {
         this.branches.push(branch.next(_leaves[chosenLeaf]));
-        if (random(1) > 0.5) _leaves.splice(chosenLeaf, 1);
+        // if (random(1) > 0.5)
+        // _leaves.splice(chosenLeaf, 1);
+        _leaves[chosenLeaf].reached = true
         // }
       }
     }
