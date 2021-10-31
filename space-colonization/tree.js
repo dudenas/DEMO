@@ -10,7 +10,7 @@ function Tree(pos) {
   var root = new Branch(null, pos);
   let finished = false
 
-  this.color = floor(random(2, 4))
+  this.color = floor(random(1, 4))
   this.branches.push(root);
 
   this.grow = function () {

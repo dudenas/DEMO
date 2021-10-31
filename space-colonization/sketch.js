@@ -56,7 +56,7 @@ function draw() {
   background(..._clrs[0]);
   // show leaves
   noStroke();
-  fill(..._clrs[1]);
+  fill(..._clrs[1], 125);
   for (var i = 0; i < _leaves.length; i++) {
     const leaf = _leaves[i]
     if (!leaf.reached) leaf.show();

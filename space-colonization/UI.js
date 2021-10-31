@@ -1,15 +1,15 @@
 let params = {
-    treeCount: 5,
+    treeCount: 10,
     noiseThreshold: 0.5,
     noiseVariation: 0.01,
 
-    scl: 10,
+    scl: 15,
     randOffsetX: 0,
     randOffsetY: 0,
     maxDistVal: 1.5,
     fps: 0,
 
-    overlap: 0.0,
+    overlap: .0,
     divideCount: 2
 }
 
@@ -35,7 +35,7 @@ function createGUI() {
     // debug
     // gui.add(params, 'debug').name('debug')
     gui.add(params, "fps").listen()
-    gui.add(params, 'treeCount', 1, 10, 1).name('tree Count')
+    gui.add(params, 'treeCount', 1, 20, 1).name('tree Count')
 
     // grid gui
     const folderGrid = gui.addFolder('Grid values')

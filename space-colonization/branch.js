@@ -9,10 +9,12 @@ function Branch(parent, pos) {
   this.len = floor(random() * max_dist);
 
   // special case to draw special rects
-  if (random(1) < 0.2) this.special = floor(random(2, 5))
+  if (random(1) < 0.2) this.special = floor(random(2, 4))
   else this.special = 1
 
   this.animate = random(1) > 0.5
+
+  this.speed = random(_speed / 2, _speed * 2)
   // this.len *= this.special
 
   this.look = floor(random(3))
@@ -30,7 +32,7 @@ function Branch(parent, pos) {
       // if this is the last node where the leaf should be created
       if (this.child == null && this.look < 2) {
         if (this.look == 0) {
-          for (let i = 0; i < this.special; i++) {
+          for (let i = 1; i <= this.special; i++) {
             let percent = 1
             if (this.animate) {
               percent = map(sin(((this.fc * 0.25 + i * .1) % 1) * TWO_PI), -1, 1, 0, 1)
@@ -38,7 +40,7 @@ function Branch(parent, pos) {
             ellipse(this.pos.x, this.pos.y, this.len * i * percent, this.len * i * percent);
           }
         } else {
-          for (let i = 0; i < this.special; i++) {
+          for (let i = 1; i <= this.special; i++) {
             let percent = 0
             if (this.animate) {
               percent = map(sin(((this.fc * 0.25 + i * .1) % 1) * TWO_PI), -1, 1, 0, PI)
@@ -67,7 +69,7 @@ function Branch(parent, pos) {
       }
     }
 
-    this.fc += _speed
+    this.fc += this.speed
   };
 
   this.showPoints = function () {
