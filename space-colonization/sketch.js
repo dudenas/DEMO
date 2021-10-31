@@ -12,9 +12,21 @@ let _leafCount
 let _quadtree
 
 const _clrs = [
-  [8, 8, 8],
-  [247, 247, 247]
+  hexToRgb("#001C34"),
+  hexToRgb("#E9F0F2"),
+  hexToRgb("#F62F63"),
+  hexToRgb("#00A8B6"),
 ]
+
+// Deep Blue - 001 C34
+// New Rose - BC234C
+// Nordic White - E9F0F2
+// Mist Grey - C2CDCD
+// Ocean Grey - 5 C7070
+// Pacific Blue - 00 A8B6
+// Paradise Pink - F62F63
+// Seaweed - 007882
+// Tyrian Purple - 5 F0F40
 
 //————————————————————————————————————————————— setup
 function setup() {
@@ -51,11 +63,11 @@ function draw() {
   }
 
   // show graphics
-  stroke(..._clrs[1])
   noFill()
   // let total = 0
   for (let idx in _trees) {
     const tree = _trees[idx]
+    stroke(..._clrs[tree.color])
     tree.show();
     if (!tree.finished) {
       tree.grow();
@@ -119,4 +131,13 @@ function setupGraphics() {
   for (const leaf of _leaves) {
     _quadtree.addItem(leaf.pos.x, leaf.pos.y, leaf);
   }
+}
+
+function hexToRgb(hex) {
+  var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return result ? [
+    parseInt(result[1], 16),
+    parseInt(result[2], 16),
+    parseInt(result[3], 16)
+  ] : null;
 }

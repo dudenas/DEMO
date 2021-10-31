@@ -9,6 +9,8 @@ function Tree(pos) {
   var pos = pos ? pos : createVector(width / 2, height / 2);
   var root = new Branch(null, pos);
   let finished = false
+
+  this.color = floor(random(2, 4))
   this.branches.push(root);
 
   this.grow = function () {

@@ -7,7 +7,14 @@ function Branch(parent, pos) {
   this.child = null
   this.count = 0;
   this.len = floor(random() * max_dist);
-  if (random(1) < 0.2) this.len *= floor(random(1, 4))
+
+  // special case to draw special rects
+  if (random(1) < 0.2) this.special = floor(random(2, 5))
+  else this.special = 1
+
+  this.animate = random(1) > 0.5
+  // this.len *= this.special
+
   this.look = floor(random(3))
   this.fc = Math.random(1)
 
@@ -18,10 +25,32 @@ function Branch(parent, pos) {
   };
 
   this.show = function () {
+    // if it is has a parent so it is not the first node
     if (parent != null) {
+      // if this is the last node where the leaf should be created
       if (this.child == null && this.look < 2) {
-        if (this.look == 0) ellipse(this.pos.x, this.pos.y, this.len, this.len);
-        else rect(this.pos.x, this.pos.y, this.len, this.len);
+        if (this.look == 0) {
+          for (let i = 0; i < this.special; i++) {
+            let percent = 1
+            if (this.animate) {
+              percent = map(sin(((this.fc * 0.25 + i * .1) % 1) * TWO_PI), -1, 1, 0, 1)
+            }
+            ellipse(this.pos.x, this.pos.y, this.len * i * percent, this.len * i * percent);
+          }
+        } else {
+          for (let i = 0; i < this.special; i++) {
+            let percent = 0
+            if (this.animate) {
+              percent = map(sin(((this.fc * 0.25 + i * .1) % 1) * TWO_PI), -1, 1, 0, PI)
+            }
+            push()
+            translate(this.pos.x, this.pos.y)
+            rotate(percent)
+            rect(0, 0, this.len * i, this.len * i);
+            pop()
+          }
+        }
+        // else show paths
       } else {
         if (this.look == 0) {
           // if the calculation is done, do this
@@ -46,6 +75,10 @@ function Branch(parent, pos) {
       const lerpPos = p5.Vector.lerp(this.pos, this.parent.pos, (i / params.divideCount / 1.0 + this.fc) % 1.0)
       ellipse(lerpPos.x, lerpPos.y, 1, 1);
     }
+  }
+
+  this.showCross = function () {
+
   }
 
   this.showLineSegments = function () {
