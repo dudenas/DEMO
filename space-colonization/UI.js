@@ -3,11 +3,14 @@ let params = {
     noiseThreshold: 0.5,
     noiseVariation: 0.01,
 
-    scl: 20,
+    scl: 10,
     randOffsetX: 0,
     randOffsetY: 0,
     maxDistVal: 1.5,
-    fps: 0
+    fps: 0,
+
+    overlap: 0.0,
+    divideCount: 2
 }
 
 let gui

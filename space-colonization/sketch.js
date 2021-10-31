@@ -6,7 +6,7 @@
 let _trees
 let _leaves;
 let max_dist
-let _finnished
+let _finished
 let _leafCount
 
 let _quadtree
@@ -46,24 +46,24 @@ function draw() {
   noStroke();
   fill(..._clrs[1]);
   for (var i = 0; i < _leaves.length; i++) {
-    _leaves[i].show();
+    const leaf = _leaves[i]
+    if (!leaf.reached) leaf.show();
   }
 
   // show graphics
   stroke(..._clrs[1])
   noFill()
+  // let total = 0
   for (let idx in _trees) {
     const tree = _trees[idx]
     tree.show();
-    if (!_finnished) tree.grow();
+    if (!tree.finished) {
+      tree.grow();
+    }
+    // total += tree.branches.length
   }
 
-  // check if to stop calculating
-  if (_leafCount == _leaves.length && !_finnished) {
-    _finnished = true
-    console.log('calculations is finnished')
-  }
-  // _leafCount = _leaves.length
+  // console.log(total)
 }
 
 //————————————————————————————————————————————— ENDDRAW
@@ -82,19 +82,10 @@ function setupGraphics() {
   max_dist = Math.sqrt(Math.pow(params.scl, 2) * 2) * params.maxDistVal
 
   // reset values
-  _finnished = false
+  _finished = false
   _leafCount = 0
   _trees = []
   _leaves = []
-
-  // create trees
-  for (let i = 0; i < params.treeCount; i++) {
-    const x = random(width)
-    const y = random(height)
-    const pos = createVector(x, y)
-    const tree = new Tree(pos);
-    _trees.push(tree)
-  }
 
   // create leaves
   const step = params.scl
@@ -103,8 +94,6 @@ function setupGraphics() {
     for (let y = 0; y < width; y += step) {
       const xoff = random(1) > 0.5 ? random(-params.randOffsetX, params.randOffsetX) : 0
       const yoff = xoff == 0 && random(1) > 0.5 ? random(-params.randOffsetY, params.randOffsetY) : 0;
-      // const xoff = random(1) > 0.5 ? random(-rand_dist, rand_dist) : 0
-      // const yoff = 0
 
       const nx = x + xoff
       const ny = y + yoff
@@ -115,6 +104,14 @@ function setupGraphics() {
         idx++
       }
     }
+  }
+
+  // create trees
+  for (let i = 0; i < params.treeCount; i++) {
+    const randomLeaf = random(_leaves)
+    const pos = randomLeaf.pos
+    const tree = new Tree(pos);
+    _trees.push(tree)
   }
 
   // quadtree clear
