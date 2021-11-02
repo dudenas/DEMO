@@ -1,7 +1,7 @@
 let params = {
     treeCount: 10,
 
-    scl: 15,
+    scl: 20,
     maxDistVal: 1.5,
     fps: 0,
 
@@ -10,6 +10,8 @@ let params = {
     randOffsetY: 0,
     divideCount: 2,
     endings: .2,
+
+    colorMode: 0,
 
     // do i need this
     showLine: true,
@@ -49,7 +51,7 @@ function createGUI() {
     // grid gui
     const folderGrid = gui.addFolder('Grid values')
     folderGrid.open()
-    folderGrid.add(params, 'scl', 10, 50, 5).name('scale').onChange(() => {
+    folderGrid.add(params, 'scl', 15, 50, 5).name('scale').onChange(() => {
         // update slider max values
         resetSliders("randOffsetX")
         resetSliders("randOffsetY")
@@ -63,6 +65,7 @@ function createGUI() {
     const folderGrfc = gui.addFolder('Graphics values')
     folderGrfc.open()
     folderGrfc.add(params, 'animate', 0, params.animate, 1).name('animate')
+    folderGrfc.add(params, 'colorMode', 0, 1, 1).name('color Mode')
     folderGrfc.add(params, 'lineLen', 2, 10, 1).name('line length')
     folderGrfc.add(params, 'endings', 0, 1, .01).name('ending chance')
 

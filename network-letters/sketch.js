@@ -27,7 +27,7 @@ function preload() {
 
 //————————————————————————————————————————————— setup
 function setup() {
-  createCanvas(1080, 1080);
+  createCanvas(1080, 1080, P2D);
   // init quadtree
   _quadtree = new QuadTree(Infinity, 30, new Rect(0, 0, width, height));
 
@@ -38,6 +38,7 @@ function setup() {
   rectMode(CENTER)
 
   // frameRate(30)
+  // saveSetup()
 }
 
 //————————————————————————————————————————————— draw
@@ -73,6 +74,8 @@ function draw() {
       tree.findBranch()
     }
   }
+
+  saveDraw()
 }
 
 //————————————————————————————————————————————— ENDDRAW
