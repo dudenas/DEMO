@@ -18,15 +18,12 @@ const _clrs = [
   hexToRgb("#00A8B6"),
 ]
 
-// Deep Blue - 001 C34
-// New Rose - BC234C
-// Nordic White - E9F0F2
-// Mist Grey - C2CDCD
-// Ocean Grey - 5 C7070
-// Pacific Blue - 00 A8B6
-// Paradise Pink - F62F63
-// Seaweed - 007882
-// Tyrian Purple - 5 F0F40
+let _font
+
+//————————————————————————————————————————————— preload
+function preload() {
+  _font = loadFont("data/Silka-Bold.otf")
+}
 
 //————————————————————————————————————————————— setup
 function setup() {
@@ -40,6 +37,7 @@ function setup() {
 
   rectMode(CENTER)
 
+  // frameRate(30)
 }
 
 //————————————————————————————————————————————— draw
@@ -71,11 +69,10 @@ function draw() {
     tree.show();
     if (!tree.finished) {
       tree.grow();
+    } else if (!tree.branchSet) {
+      tree.findBranch()
     }
-    // total += tree.branches.length
   }
-
-  // console.log(total)
 }
 
 //————————————————————————————————————————————— ENDDRAW
@@ -99,18 +96,29 @@ function setupGraphics() {
   _trees = []
   _leaves = []
 
+  // create text
+  const pg = createGraphics(width, height);
+  pg.textFont(_font)
+  pg.background(0)
+  pg.textSize(width)
+  pg.textAlign(CENTER, CENTER)
+  pg.fill(255)
+  pg.text("IP", width / 2, height / 2.75)
+  image(pg, 0, 0)
+
+  pg.loadPixels()
   // create leaves
   const step = params.scl
   let idx = 0
   for (let x = 0; x < width; x += step) {
-    for (let y = 0; y < width; y += step) {
-      const xoff = random(1) > 0.5 ? random(-params.randOffsetX, params.randOffsetX) : 0
-      const yoff = xoff == 0 && random(1) > 0.5 ? random(-params.randOffsetY, params.randOffsetY) : 0;
-
-      const nx = x + xoff
-      const ny = y + yoff
-      const noiseVal = noise(nx * params.noiseVariation, ny * params.noiseVariation)
-      if (noiseVal > params.noiseThreshold) {
+    for (let y = 0; y < height; y += step) {
+      const pixelIdx = (x + y * width) * 4 // rgba that is why you 
+      const bri = pg.pixels[pixelIdx]
+      if (bri == 255) {
+        const xoff = random(1) > 0.5 ? random(-params.randOffsetX, params.randOffsetX) : 0
+        const yoff = xoff == 0 && random(1) > 0.5 ? random(-params.randOffsetY, params.randOffsetY) : 0
+        const nx = x + xoff
+        const ny = y + yoff
         const pos = createVector(nx, ny)
         _leaves.push(new Leaf(pos, idx));
         idx++
