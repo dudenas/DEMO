@@ -83,8 +83,10 @@ function Tree(pos) {
 
     for (let n = 0; n < this.specialBranches.length; n++) {
       const col = this.branchesColors[n]
+      const bri = map(n, 0, this.specialBranches[n].length - 1, 125, 255)
       strokeWeight(this.branchesWeight[n] ? 2 : 1)
       if (params.colorMode == 0) stroke(_clrs[col])
+      if (params.colorMode == 1) stroke(..._clrs[this.color], bri)
       const currBranch = this.specialBranches[n]
       for (var i = 0; i < currBranch.length; i++) {
         const branch = currBranch[i]

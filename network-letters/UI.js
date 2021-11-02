@@ -11,7 +11,7 @@ let params = {
     divideCount: 2,
     endings: .2,
 
-    colorMode: 0,
+    colorMode: 1,
 
     // do i need this
     showLine: true,
@@ -65,7 +65,7 @@ function createGUI() {
     const folderGrfc = gui.addFolder('Graphics values')
     folderGrfc.open()
     folderGrfc.add(params, 'animate', 0, params.animate, 1).name('animate')
-    folderGrfc.add(params, 'colorMode', 0, 1, 1).name('color Mode')
+    folderGrfc.add(params, 'colorMode', 0, 2, 1).name('color Mode')
     folderGrfc.add(params, 'lineLen', 2, 10, 1).name('line length')
     folderGrfc.add(params, 'endings', 0, 1, .01).name('ending chance')
 
