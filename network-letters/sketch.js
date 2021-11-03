@@ -28,6 +28,7 @@ function preload() {
 //————————————————————————————————————————————— setup
 function setup() {
   createCanvas(1080, 1080, P2D);
+  pixelDensity(1)
   // init quadtree
   _quadtree = new QuadTree(Infinity, 30, new Rect(0, 0, width, height));
 
@@ -99,32 +100,55 @@ function setupGraphics() {
   _trees = []
   _leaves = []
 
-  // create text
-  const pg = createGraphics(width, height);
-  pg.textFont(_font)
-  pg.background(0)
-  pg.textSize(width)
-  pg.textAlign(CENTER, CENTER)
-  pg.fill(255)
-  pg.text("IP", width / 2, height / 2.75)
-  image(pg, 0, 0)
-
-  pg.loadPixels()
-  // create leaves
-  const step = params.scl
-  let idx = 0
-  for (let x = 0; x < width; x += step) {
-    for (let y = 0; y < height; y += step) {
-      const pixelIdx = (x + y * width) * 4 // rgba that is why you 
-      const bri = pg.pixels[pixelIdx]
-      if (bri == 255) {
+  if (params.letterMode) {
+    // create text
+    const pg = createGraphics(width, height);
+    pg.textFont(_font)
+    pg.background(0)
+    pg.pixelDensity(1)
+    pg.textSize(width)
+    pg.textAlign(CENTER, CENTER)
+    pg.fill(255)
+    pg.text("IP", width / 2, height / 2.75)
+    image(pg, 0, 0)
+    pg.loadPixels()
+    // create leaves
+    const step = params.scl
+    let idx = 0
+    for (let x = 0; x < width; x += step) {
+      for (let y = 0; y < height; y += step) {
+        const pixelIdx = (x + y * width) * 4 // rgba that is why you 
+        const bri = pg.pixels[pixelIdx]
+        if (bri == 255 && random(1) < params.randomDelete) {
+          const xoff = random(1) > 0.5 ? random(-params.randOffsetX, params.randOffsetX) : 0
+          const yoff = xoff == 0 && random(1) > 0.5 ? random(-params.randOffsetY, params.randOffsetY) : 0
+          const nx = x + xoff
+          const ny = y + yoff
+          const pos = createVector(nx, ny)
+          _leaves.push(new Leaf(pos, idx));
+          idx++
+        }
+      }
+    }
+  } else {
+    // create leaves
+    const step = params.scl
+    let idx = 0
+    for (let x = 0; x < width; x += step) {
+      for (let y = 0; y < width; y += step) {
         const xoff = random(1) > 0.5 ? random(-params.randOffsetX, params.randOffsetX) : 0
-        const yoff = xoff == 0 && random(1) > 0.5 ? random(-params.randOffsetY, params.randOffsetY) : 0
+        const yoff = xoff == 0 && random(1) > 0.5 ? random(-params.randOffsetY, params.randOffsetY) : 0;
+        // const xoff = random(1) > 0.5 ? random(-rand_dist, rand_dist) : 0
+        // const yoff = 0
+
         const nx = x + xoff
         const ny = y + yoff
-        const pos = createVector(nx, ny)
-        _leaves.push(new Leaf(pos, idx));
-        idx++
+        const noiseVal = noise(nx * params.noiseVariation, ny * params.noiseVariation)
+        if (noiseVal > params.noiseThreshold) {
+          const pos = createVector(nx, ny)
+          _leaves.push(new Leaf(pos, idx));
+          idx++
+        }
       }
     }
   }

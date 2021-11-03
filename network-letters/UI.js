@@ -1,6 +1,11 @@
 let params = {
     treeCount: 10,
 
+    letterMode: true,
+
+    noiseThreshold: 0.5,
+    noiseVariation: 0.01,
+
     scl: 20,
     maxDistVal: 1.5,
     fps: 0,
@@ -8,6 +13,7 @@ let params = {
     lineLen: 4,
     randOffsetX: 0,
     randOffsetY: 0,
+    randomDelete: .8,
     divideCount: 2,
     endings: .2,
 
@@ -16,6 +22,7 @@ let params = {
     // do i need this
     showLine: true,
 
+    highlight: true,
     showCross: true,
     showPoints: true,
     showSegments: true,
@@ -46,6 +53,7 @@ function createGUI() {
     // debug
     // gui.add(params, 'debug').name('debug')
     gui.add(params, "fps").listen()
+    gui.add(params, 'letterMode').name('letterMode')
     gui.add(params, 'treeCount', 1, 20, 1).name('tree Count')
 
     // grid gui
@@ -57,6 +65,7 @@ function createGUI() {
         resetSliders("randOffsetY")
     })
 
+    folderGrid.add(params, 'randomDelete', 0.1, 1, 0.1).name('random delete')
     folderGrid.add(params, 'randOffsetX', 0, params.scl, 1).name('random offset X')
     folderGrid.add(params, 'randOffsetY', 0, params.scl, 1).name('random offset Y')
     folderGrid.add(params, 'maxDistVal', 1, 3, .1).name('max distance')
@@ -65,6 +74,7 @@ function createGUI() {
     const folderGrfc = gui.addFolder('Graphics values')
     folderGrfc.open()
     folderGrfc.add(params, 'animate', 0, params.animate, 1).name('animate')
+    folderGrfc.add(params, 'highlight', params.highlights).name('highlight')
     folderGrfc.add(params, 'colorMode', 0, 2, 1).name('color Mode')
     folderGrfc.add(params, 'lineLen', 2, 10, 1).name('line length')
     folderGrfc.add(params, 'endings', 0, 1, .01).name('ending chance')
@@ -74,6 +84,12 @@ function createGUI() {
     folderGrfc.add(params, 'showSegments', 0, params.showSegments, 1).name('show Segments')
     folderGrfc.add(params, 'showEndings', 0, params.showEndings, 1).name('show Endings')
     folderGrfc.add(params, 'showDoubleLine', 0, params.showDoubleLine, 1).name('show Double Line')
+
+    // noise gui
+    const folderNoise = gui.addFolder('Noise values')
+    folderNoise.open()
+    folderNoise.add(params, 'noiseThreshold', 0.3, .7, 0.01).name('noise threshold')
+    folderNoise.add(params, 'noiseVariation', 0.005, .1, 0.001).name('noise variation')
 
     // redraw
     params.redraw =
