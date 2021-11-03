@@ -120,6 +120,10 @@ function keyPressed() {
         const jsonData = gui.getSaveObject()
         download(JSON.stringify(jsonData), 'settings.json', 'JSON');
     }
+
+    if (key == 'n') {
+        saveCanvas(str(floor(random(1000))), "png")
+    }
 }
 
 function download(content, fileName, contentType) {
