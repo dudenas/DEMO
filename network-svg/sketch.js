@@ -6,7 +6,7 @@ let _leafCount
 
 let _quadtree
 
-const _clrs = [
+let _clrs = [
   hexToRgb("#001C34"),
   hexToRgb("#E9F0F2"),
   hexToRgb("#F62F63"),
