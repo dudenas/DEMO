@@ -20,6 +20,8 @@ const _clrs = [
 
 let _font
 
+let canvas
+
 //————————————————————————————————————————————— preload
 function preload() {
   _font = loadFont("data/Silka-Bold.otf")
@@ -27,7 +29,9 @@ function preload() {
 
 //————————————————————————————————————————————— setup
 function setup() {
-  createCanvas(1080, 1080, P2D);
+  canvas = createCanvas(1080, 1080, P2D);
+  // canvas.parent('main')
+  canvas.id('myCanvas')
   pixelDensity(1)
   // init quadtree
   _quadtree = new QuadTree(Infinity, 30, new Rect(0, 0, width, height));
@@ -40,6 +44,7 @@ function setup() {
 
   // frameRate(30)
   // saveSetup()
+  console.log(canvas)
 }
 
 //————————————————————————————————————————————— draw
@@ -53,7 +58,15 @@ function draw() {
   }
   _lastPreset = gui.preset
 
-  background(..._clrs[0]);
+  // let temp = createGraphics(width, height)
+  if (params.colorMode != 3) background(..._clrs[0]);
+  else {
+    // background(0);
+  }
+
+  // image(photo, 0, 0)
+  // clear()
+
   // show leaves
   noStroke();
   fill(..._clrs[1], 125);
@@ -67,7 +80,8 @@ function draw() {
   // let total = 0
   for (let idx in _trees) {
     const tree = _trees[idx]
-    stroke(..._clrs[tree.color])
+    if (params.colorMode != 3) stroke(..._clrs[tree.color])
+    else stroke(255)
     tree.show();
     if (!tree.finished) {
       tree.grow();
@@ -76,6 +90,16 @@ function draw() {
     }
   }
 
+  // var ctx = canvas.canvas.getContext("2d");
+  // var grd = ctx.createLinearGradient(0, 0, 0, height);
+  // grd.addColorStop(0, "#F62F63");
+  // grd.addColorStop(1, "#00A8B6");
+  // ctx.fillStyle = grd;
+  // ctx.fillRect(0, 0, width, height);
+  // ctx.globalCompositeOperation = 'lighten';
+  // const after = createImage(this)
+  // after.mask(temp)
+  // image(after, 0, 0)
   saveDraw()
 }
 

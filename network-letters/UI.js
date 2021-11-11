@@ -17,7 +17,7 @@ let params = {
     divideCount: 2,
     endings: .2,
 
-    colorMode: 1,
+    colorMode: 2,
 
     // do i need this
     showLine: true,
