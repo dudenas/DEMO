@@ -1,7 +1,7 @@
 let params = {
     treeCount: 10,
 
-    letterMode: true,
+    mode: 'image',
 
     noiseThreshold: 0.5,
     noiseVariation: 0.01,
@@ -58,7 +58,7 @@ function createGUI() {
     // debug
     // gui.add(params, 'debug').name('debug')
     gui.add(params, "fps").listen()
-    gui.add(params, 'letterMode').name('letterMode')
+    gui.add(params, 'mode', ['image', 'noise']).name('mode')
     gui.add(params, 'treeCount', 1, 20, 1).name('tree Count')
 
     // grid gui
